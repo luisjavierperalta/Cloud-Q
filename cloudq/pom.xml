@@ -52,28 +52,6 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.optaplanner/optaplanner-core -->
-		<dependency>
-			<groupId>org.optaplanner</groupId>
-			<artifactId>optaplanner-core</artifactId>
-			<version>9.43.0.Final</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.optaplanner/optaplanner-core-impl -->
-		<dependency>
-			<groupId>org.optaplanner</groupId>
-			<artifactId>optaplanner-core-impl</artifactId>
-			<version>9.44.0.Final</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.optaplanner/optaplanner-spring-boot-starter -->
-		<dependency>
-			<groupId>org.optaplanner</groupId>
-			<artifactId>optaplanner-spring-boot-starter</artifactId>
-			<version>9.44.0.Final</version>
-		</dependency>
-
-
 
 		<dependency>
 			<groupId>org.springdoc</groupId>
@@ -118,24 +96,29 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- Apache Spark SQL (for DataFrame support) -->
-		<dependency>
-			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-sql_2.12</artifactId> <!-- Change to your Scala version -->
-			<version>3.4.0</version> <!-- Use the version you require -->
-		</dependency>
-		<!-- Apache Spark MLlib -->
-		<dependency>
-			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-mllib_2.12</artifactId> <!-- Change to your Scala version -->
-			<version>3.4.0</version> <!-- Use the version you require -->
-		</dependency>
-		<!-- Apache Spark Core -->
-		<dependency>
-			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-core_2.12</artifactId> <!-- Change to your Scala version -->
-			<version>3.4.0</version> <!-- Use the version you require -->
-		</dependency>
+
+			<!-- Apache Spark Core -->
+			<dependency>
+				<groupId>org.apache.spark</groupId>
+				<artifactId>spark-core_2.12</artifactId>
+				<version>3.4.0</version>
+			</dependency>
+
+			<!-- Apache Spark SQL (for DataFrame support) -->
+			<dependency>
+				<groupId>org.apache.spark</groupId>
+				<artifactId>spark-sql_2.12</artifactId>
+				<version>3.4.0</version>
+			</dependency>
+
+			<!-- Apache Spark MLlib -->
+			<dependency>
+				<groupId>org.apache.spark</groupId>
+				<artifactId>spark-mllib_2.12</artifactId>
+				<version>3.4.0</version>
+			</dependency>
+
+
 		<!-- Weka Dependency -->
 		<!-- https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/weka-stable -->
 		<dependency>
@@ -194,12 +177,6 @@
 			<groupId>org.optaplanner</groupId>
 			<artifactId>optaplanner-spring-boot-starter</artifactId>
 			<version>8.24.0.Final</version> <!-- This should work if you're using Spring Boot -->
-		</dependency>
-		<!-- OptaPlanner Score Calculators -->
-		<dependency>
-			<groupId>org.optaplanner</groupId>
-			<artifactId>optaplanner-spring-boot-starter</artifactId>
-			<version>8.24.0.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.nd4j</groupId>
@@ -272,6 +249,11 @@
 			<groupId>software.amazon.awssdk</groupId>
 			<artifactId>autoscaling</artifactId>
 			<version>2.20.0</version> <!-- Use the latest version -->
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
 
@@ -452,6 +434,39 @@
 			<version>4.0.1</version> <!-- Check for the latest version -->
 			<scope>provided</scope>
 		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/com.google.ortools/ortools-java -->
+		<dependency>
+			<groupId>com.google.ortools</groupId>
+			<artifactId>ortools-java</artifactId>
+			<version>9.11.4210</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<version>5.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- TensorFlow Java Dependency -->
+
+
+		<!-- https://mvnrepository.com/artifact/org.tensorflow/tensorflow -->
+		<!-- https://mvnrepository.com/artifact/org.tensorflow/tensorflow -->
+		<dependency>
+			<groupId>org.tensorflow</groupId>
+			<artifactId>tensorflow</artifactId>
+			<version>1.15.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons</artifactId>
+		</dependency>
+
+
 
 
 

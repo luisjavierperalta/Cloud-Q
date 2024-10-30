@@ -1,22 +1,18 @@
 package com.cloudq.cloudq.ai.engine;
 
 
-import com.cloudq.cloudq.ai.model.ModelEvaluationReport;
-import com.cloudq.cloudq.ai.model.ModelMetrics;
-import com.cloudq.cloudq.ai.model.OptimizationRequest;
-import com.cloudq.cloudq.ai.model.OptimizationResponse;
-import com.cloudq.cloudq.ai.model.PredictiveAnalyticsModel;
-import com.cloudq.cloudq.ai.model.OptimizationAlgorithmModel;
+import com.cloudq.cloudq.ai.model.*;
+
 import java.util.logging.Logger;
 
 public class EvaluationEngine {
 
     private static final Logger logger = Logger.getLogger(EvaluationEngine.class.getName());
 
-    private final PredictiveAnalyticsModel predictiveModel;
+    private final PredictiveAnalysisModel predictiveModel;
     private final OptimizationAlgorithmModel optimizationModel;
 
-    public EvaluationEngine(PredictiveAnalyticsModel predictiveModel, OptimizationAlgorithmModel optimizationModel) {
+    public EvaluationEngine(PredictiveAnalysisModel predictiveModel, OptimizationAlgorithmModel optimizationModel) {
         this.predictiveModel = predictiveModel;
         this.optimizationModel = optimizationModel;
     }

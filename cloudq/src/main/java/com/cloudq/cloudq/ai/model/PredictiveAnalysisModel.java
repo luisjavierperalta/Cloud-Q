@@ -11,14 +11,16 @@ import org.apache.spark.sql.types.StructType;
 import org.apache.spark.sql.RowFactory;
 import org.apache.spark.ml.linalg.Vectors;
 
-import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-public class PredictiveAnalyticsModel extends AIModel {
+public class PredictiveAnalysisModel extends AIModel {
     private SparkSession spark;
     private LinearRegression model;
     private org.apache.spark.ml.regression.LinearRegressionModel trainedModel; // Trained model
 
-    public PredictiveAnalyticsModel(SparkSession spark) {
+    public PredictiveAnalysisModel(SparkSession spark) {
         this.spark = spark;
         this.model = new LinearRegression();
     }
@@ -32,14 +34,12 @@ public class PredictiveAnalyticsModel extends AIModel {
         });
 
         // Convert the data to Row format
-        Row[] rows = new Row[data.length];
-        for (int i = 0; i < data.length; i++) {
-            org.apache.spark.ml.linalg.Vector featureVector = Vectors.dense(data[i]);
-            rows[i] = RowFactory.create(labels[i], featureVector);
-        }
+        List<Row> rows = IntStream.range(0, data.length)
+                .mapToObj(i -> RowFactory.create(labels[i], Vectors.dense(data[i])))
+                .collect(Collectors.toList());
 
         // Create DataFrame
-        Dataset<Row> trainingData = spark.createDataFrame(Arrays.asList(rows), schema);
+        Dataset<Row> trainingData = spark.createDataFrame(rows, schema);
 
         // Fit the model and save the trained model
         trainedModel = model.fit(trainingData); // Store the trained model
@@ -53,25 +53,24 @@ public class PredictiveAnalyticsModel extends AIModel {
         });
 
         // Convert the data to Row format
-        Row[] rows = new Row[data.length];
-        for (int i = 0; i < data.length; i++) {
-            org.apache.spark.ml.linalg.Vector featureVector = Vectors.dense(data[i]);
-            rows[i] = RowFactory.create(featureVector);
-        }
+        List<Row> rows = IntStream.range(0, data.length)
+                .mapToObj(i -> RowFactory.create(Vectors.dense(data[i])))
+                .collect(Collectors.toList());
 
         // Create DataFrame for prediction
-        Dataset<Row> predictionData = spark.createDataFrame(Arrays.asList(rows), schema);
+        Dataset<Row> predictionData = spark.createDataFrame(rows, schema);
 
         // Generate predictions using the trained model
         Dataset<Row> predictions = trainedModel.transform(predictionData);
 
-        // Collect predictions
-        double[] predictionResults = new double[(int) predictions.count()];
-        for (int i = 0; i < predictionResults.length; i++) {
-            predictionResults[i] = predictions.collectAsList().get(i).getDouble(0); // Access the prediction column
-        }
-
-        return predictionResults;
+        // Collect predictions as a double array
+        return predictions.select("prediction")
+                .javaRDD()
+                .map(row -> row.getDouble(0)) // Extract prediction values
+                .collect()
+                .stream()
+                .mapToDouble(Double::doubleValue) // Convert Double to double
+                .toArray();
     }
 
     @Override
@@ -83,14 +82,12 @@ public class PredictiveAnalyticsModel extends AIModel {
         });
 
         // Convert the test data to Row format
-        Row[] rows = new Row[testData.length];
-        for (int i = 0; i < testData.length; i++) {
-            org.apache.spark.ml.linalg.Vector featureVector = Vectors.dense(testData[i]);
-            rows[i] = RowFactory.create(testLabels[i], featureVector);
-        }
+        List<Row> rows = IntStream.range(0, testData.length)
+                .mapToObj(i -> RowFactory.create(testLabels[i], Vectors.dense(testData[i])))
+                .collect(Collectors.toList());
 
         // Create DataFrame for testing
-        Dataset<Row> testDataFrame = spark.createDataFrame(Arrays.asList(rows), schema);
+        Dataset<Row> testDataFrame = spark.createDataFrame(rows, schema);
 
         // Generate predictions on test data
         Dataset<Row> predictions = trainedModel.transform(testDataFrame);
@@ -103,7 +100,7 @@ public class PredictiveAnalyticsModel extends AIModel {
         double mse = evaluator.setMetricName("mse").evaluate(predictions);
         double rmse = Math.sqrt(mse); // Root Mean Squared Error
 
-        // Assuming we want to return ModelMetrics with just RMSE for regression
-        return new ModelMetrics(rmse, 0, 0, 0, 0); // Precision, recall, fMeasure are not applicable for regression
+        // Return ModelMetrics with RMSE; precision, recall, fMeasure are not applicable for regression
+        return new ModelMetrics(rmse, 0, 0, 0, 0);
     }
 }

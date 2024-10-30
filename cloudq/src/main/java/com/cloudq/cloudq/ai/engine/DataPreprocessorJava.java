@@ -1,24 +1,22 @@
 package com.cloudq.cloudq.ai.engine;
 
 
-import org.apache.spark.ml.feature.StringIndexer;
-import org.apache.spark.ml.feature.VectorAssembler;
-import org.apache.spark.ml.feature.StandardScaler;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.functions;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructField;
-import org.apache.spark.sql.types.StructType;
+import org.apache.spark.ml.linalg.Vectors;
 
 import java.util.Arrays;
+import java.util.List;
 
-public class DataPreprocessor {
+public class DataPreprocessorJava {
 
     private SparkSession spark;
 
-    public DataPreprocessor(SparkSession spark) {
+    public DataPreprocessorJava(SparkSession spark) {
         this.spark = spark;
     }
 
@@ -45,7 +43,7 @@ public class DataPreprocessor {
     }
 
     /**
-     * Encodes categorical columns to numeric values using StringIndexer.
+     * Encodes categorical columns to numeric values using a simple mapping approach.
      *
      * @param dataset - The dataset to preprocess
      * @param categoricalColumns - Array of categorical column names
@@ -53,36 +51,31 @@ public class DataPreprocessor {
      */
     public Dataset<Row> encodeCategoricalColumns(Dataset<Row> dataset, String[] categoricalColumns) {
         for (String column : categoricalColumns) {
-            StringIndexer indexer = new StringIndexer()
-                    .setInputCol(column)
-                    .setOutputCol(column + "_indexed");
-            dataset = indexer.fit(dataset).transform(dataset).drop(column);
+            List<Row> uniqueValues = dataset.select(column).distinct().collectAsList();
+            for (int i = 0; i < uniqueValues.size(); i++) {
+                String value = uniqueValues.get(i).getString(0);
+                dataset = dataset.withColumn(column + "_indexed",
+                        functions.when(functions.col(column).equalTo(value), i).otherwise(functions.col(column + "_indexed")));
+            }
+            dataset = dataset.drop(column); // Drop the original column
         }
         return dataset;
     }
 
     /**
-     * Scales numerical features using StandardScaler.
+     * Scales numerical features manually by standardizing them.
      *
      * @param dataset - The dataset to preprocess
      * @param featureColumns - Array of numerical feature column names
      * @return Dataset<Row> - Dataset with scaled numerical features
      */
     public Dataset<Row> scaleNumericalFeatures(Dataset<Row> dataset, String[] featureColumns) {
-        VectorAssembler assembler = new VectorAssembler()
-                .setInputCols(featureColumns)
-                .setOutputCol("features_unscaled");
-
-        dataset = assembler.transform(dataset);
-
-        StandardScaler scaler = new StandardScaler()
-                .setInputCol("features_unscaled")
-                .setOutputCol("features_scaled")
-                .setWithMean(true)
-                .setWithStd(true);
-
-        dataset = scaler.fit(dataset).transform(dataset).drop("features_unscaled");
-
+        for (String column : featureColumns) {
+            double mean = dataset.agg(functions.avg(column)).first().getDouble(0);
+            double stdDev = dataset.agg(functions.stddev(column)).first().getDouble(0);
+            dataset = dataset.withColumn(column + "_scaled",
+                    (functions.col(column).minus(mean)).divide(stdDev));
+        }
         return dataset;
     }
 

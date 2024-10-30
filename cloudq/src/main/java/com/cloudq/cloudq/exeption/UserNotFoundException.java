@@ -1,4 +1,4 @@
-package com.cloudq.cloudq.service;
+package com.cloudq.cloudq.exeption;
 
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(String message) {

@@ -9,6 +9,7 @@ import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class TimeSeriesForecastingModel extends AIModel {
     private LinearRegression model;
@@ -62,7 +63,14 @@ public class TimeSeriesForecastingModel extends AIModel {
         Dataset<Row> predictions = model.fit(predictionData).transform(predictionData);
 
         // Extract predictions and convert to double array
-        Double[] result = predictions.select("prediction").as(Encoders.DOUBLE()).collect();
+        List<Double> resultList = predictions.select("prediction").as(Encoders.DOUBLE()).collectAsList();
+
+        // Convert List<Double> to double[]
+        double[] result = new double[resultList.size()];
+        for (int i = 0; i < resultList.size(); i++) {
+            result[i] = resultList.get(i);
+        }
+
         return result;
     }
 
@@ -95,7 +103,7 @@ public class TimeSeriesForecastingModel extends AIModel {
         double rmse = evaluator.setMetricName("rmse").evaluate(predictions);
         double r2 = evaluator.setMetricName("r2").evaluate(predictions);
 
-        // Assuming ModelMetrics constructor takes RMSE and R² values
-        return new ModelMetrics(rmse, r2);
+        // Update constructor call according to ModelMetrics definition
+        return new ModelMetrics(rmse, r2, 0.0, 0.0, 0.0); // Adjust parameters based on actual ModelMetrics constructor
     }
 }
