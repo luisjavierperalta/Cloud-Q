@@ -1,0 +1,4 @@
+package com.cloudq.cloudq.config;
+
+public class SwaggerConfig {
+}

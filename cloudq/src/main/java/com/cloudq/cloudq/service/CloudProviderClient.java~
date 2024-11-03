@@ -1,0 +1,4 @@
+package com.cloudq.cloudq.service;
+
+public interface CloudProviderClient {
+}

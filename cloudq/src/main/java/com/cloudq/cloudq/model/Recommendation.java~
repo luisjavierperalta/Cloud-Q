@@ -1,0 +1,19 @@
+package com.cloudq.cloudq.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * Data Model for Optimization Recommendations
+ */
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Recommendation {
+
+    private String recommendationId;
+    private String description;
+}

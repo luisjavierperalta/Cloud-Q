@@ -35,6 +35,9 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+
+
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-batch</artifactId>
@@ -51,6 +54,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>com.google.auth</groupId>
+			<artifactId>google-auth-library-oauth2-http</artifactId>
+			<version>1.29.0</version>
+		</dependency>
+
 
 
 		<dependency>
@@ -245,11 +255,77 @@
 			<artifactId>cloudwatch</artifactId>
 			<version>2.20.0</version> <!-- Use the latest version -->
 		</dependency>
+
+		<!-- AWS SDK for Java (S3 and Secrets Manager) -->
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
-			<artifactId>autoscaling</artifactId>
-			<version>2.20.0</version> <!-- Use the latest version -->
+			<artifactId>s3</artifactId>
+			<version>2.20.2</version> <!-- Check for latest version -->
 		</dependency>
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>secretsmanager</artifactId>
+			<version>2.20.2</version> <!-- Check for latest version -->
+		</dependency>
+
+		<!-- GCP SDK for Google Cloud Storage -->
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-storage</artifactId>
+			<version>2.25.0</version> <!-- Check for latest version -->
+		</dependency>
+
+		<!-- Azure SDK for Storage (if using Azure Blob Storage) -->
+		<dependency>
+			<groupId>com.azure</groupId>
+			<artifactId>azure-storage-blob</artifactId>
+			<version>12.16.0</version> <!-- Check for latest version -->
+		</dependency>
+
+		<!-- IBM Cloud SDK (if interacting with IBM Cloud resources) -->
+		<!-- https://mvnrepository.com/artifact/com.ibm.cos/ibm-cos-java-sdk -->
+		<dependency>
+			<groupId>com.ibm.cos</groupId>
+			<artifactId>ibm-cos-java-sdk</artifactId>
+			<version>2.13.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>2.0.1.Final</version>
+		</dependency>
+
+		<!-- Lombok for reduced boilerplate code -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.20</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.24</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -465,6 +541,37 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-commons</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>com.ibm.watson</groupId>
+			<artifactId>ibm-watson</artifactId>
+			<version>9.2.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.ibm.watson/ibm-watson-parent -->
+		<!-- https://mvnrepository.com/artifact/com.ibm.watson/ibm-watson-parent -->
+
+		<!-- https://mvnrepository.com/artifact/com.ibm.watson/ibm-watson-parent -->
+		<dependency>
+			<groupId>com.ibm.watson</groupId>
+			<artifactId>ibm-watson-parent</artifactId>
+			<version>13.0.0</version>
+			<type>pom</type>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ibm.watson</groupId>
+			<artifactId>ibm-watson</artifactId>
+			<version>13.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+
+
+
+
 
 
 

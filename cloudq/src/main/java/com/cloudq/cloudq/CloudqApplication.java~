@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = "com.cloudq.cloudq.repository")  // Enables JPA repositories in the specified package
+@EnableJpaRepositories(basePackages = "com.cloudq." optimization.repository")  // Enables JPA repositories in the specified package
 public class CloudqApplication {
 
 	public static void main(String[] args) {
